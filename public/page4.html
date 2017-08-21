@@ -1,0 +1,357 @@
+
+<!DOCTYPE html>
+<html>
+
+  <head>
+      <meta charset="UTF-8">
+        <title>Watson Speech to Sentiment</title>
+        <link rel="stylesheet" href="stylesheets/radio.css">
+        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+       <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+  </head>
+
+  <body background="img/brickwall.png" onload="start()">
+        <div class="frame">
+             <div class="casep4">
+              <img src="img/Watson_Summit.png"  width="100%" height="8%"/>
+              <div class="tuner2">
+                       <img src="img/watsson.png" class = "imgwatson"/>
+                      <textarea class="word" readonly="" id="text7" dir="auto" >
+                      </textarea>
+                </div> 
+                  <div>  
+                    <form  onchange="speak()">
+                       <input id="range5" type="range" class= "rangeclass" name="foo" min="0" max="10" oninput="showVal()">
+                        <output for="foo" onforminput="value = foo.valueAsNumber;" ></output>
+                    </form>
+                </div>
+
+                 <div class="tuner2" style="display: none;" id="divp4">
+                       <img src="img/watsson.png" class = "imgwatson4"/>
+                      <textarea class="word4" readonly="" id="text8" dir="auto"> 
+                      
+                      </textarea>
+                </div> 
+                <div class="sec" id="div41">
+                      
+                      <div class="controls"> 
+                                     <button id="recButton"></button>
+                                     <label class="controlLabel" id="labell">RECORD</label>
+                       </div>
+               </div>
+              <div class="section">  
+
+                        <div>
+                           <!-- <p><small><i>Please choose a language :</i></small><select id="model"></select> </p>-->
+                        </div> 
+                        <div class="grill" id="grill">
+                            <textarea class="words" id="resultsText3" dir="auto"></textarea>
+                            <svg width="100%" height="100%" xmlns="http://www.w3.org/2000/svg">
+                                <defs>
+                                    <pattern id="smallGrid" width="2" height="2" patternUnits="userSpaceOnUse">
+                                        <path d="M 8 0 L 0 0 0 8" fill="none" stroke="#8F9C78" stroke-width="0.5" />
+                                    </pattern>
+                                    <pattern id="grid" width="80" height="80" patternUnits="userSpaceOnUse">
+                                        <rect width="80" height="80" fill="url(#smallGrid)" />      
+                                    </pattern>
+                                </defs>
+                                <rect width="100%" height="100%" fill="url(#grid)" />
+                            </svg>
+                        </div>
+                 </div>
+               <div class="sec2">
+                      <div class="controlsvalidate">   
+                                      <label class="controlLabell">Validate and calculate rating</label>
+                                      <div  id="validaterecord1" > <img src="img/enter-arrow.png" class="controlLabela"/></div>
+                                      
+                  </div> 
+                  </div> 
+                   <div class="tuner">
+                    <img src="img/watsson.png" class = "imgwatson4"/>
+                      <textarea class="word4" readonly="" id="text9" dir="auto" > 
+                      </textarea>
+                  </div> 
+                  <form>
+                       <input id="range6" type="range" class= "rangeclass" name="foo" min="0" max="10">
+                        <output for="foo" onforminput="value = foo.valueAsNumber;"></output>
+                    </form>
+                  
+                <div class="controls5"> 
+                                     <div  id="back" class="back"><label class="controlLabel1"> << Back </label></div>
+                                     <div  id="next" class="next"><label class="controlLabel1">Next >> </label></div>
+                                         
+                       </div> 
+                
+            </div>  
+        </div>
+        <script src="./js/watson-speech.js"></script>
+
+        <script>
+            var voice ='';
+            var sentiment3=0;
+            var language=localStorage.language;
+                  var enPromotor ="What was your best experience at the event ?";
+                  var esPromotor ="¿Cuál fue tu mejor experiencia en el evento?";
+                  var frPromotor ="Quelle a été votre meilleure expérience lors de l'événement?";
+                  var dePromotor ="Was war Ihr schönstes Erlebnis bei der Veranstaltung?";
+                  var promotor="";
+
+                  var enDetractor ="What was your worst experience at the event ? ";
+                  var esDetractor ="¿Cuál fue tu peor experiencia en el evento?";
+                  var frDetractor ="Quelle a été votre pire expérience lors de l'événement?";
+                  var deDetractor ="Was war Ihre schlimmste Erfahrung während der Veranstaltung?";
+                  var detractor ="";
+
+                  var enText7="On a scale of 0 to 10, how likely are you to recommend IBM to a friend or colleague?";
+                  var esText7="En una escala de 0 a 10, ¿cuál es la probabilidad de recomendar IBM a un amigo o colega?";
+                  var frText7="Sur une échelle de 0 à 10, quelle est la probabilité de recommander IBM à un ami ou à un collègue?";
+                  var deText7="Auf einer Skala von 0 bis 10, wie wahrscheinlich IBM an einen Freund oder Kollegen empfiehlt?";
+                  var tex7= "";
+
+                  var enText8="";
+                  var esText8="";
+                  var frText8="";
+                  var deText8="";
+                  var tex8= "";
+
+                  var enText9="Based on what you told me, I understand you would rate your experience as a ";
+                  var esText9="Basado en lo que me dijiste, entiendo que calificarías tu experiencia como un ";
+                  var frText9="Selon ce que vous m'avez dit, je comprends que vous évaluerez votre expérience comme ";
+                  var deText9="Je nachdem, was Sie mir gesagt haben, verstehe ich, dass Sie Ihre Erfahrungen auswerten als ";
+                  var tex9= "";
+
+                  var enModify=". Please feel free to modify as needed.";
+                  var esModify=". Por favor, siéntase libre de modificarlo según sea necesario.";
+                  var frModify=". N'hésitez pas à modifier au besoin.";
+                  var deModify=". Fühlen Sie sich frei nach Bedarf zu ändern."
+                  var modify="";
+
+                  var enNpsMuchDiff ="It looks like the ratings you gave are very spread out, can you please tell me more?";
+                  var frNpsMuchDiff="Il semble que les cotes que vous avez données sont très étalées, pouvez-vous me dire plus?";
+                  var esNpsMuchDiff="Parece que las calificaciones que has dado están muy extendidas, ¿puedes por favor decirme más?";
+                  var deNpsMuchDiff="Es sieht aus wie die Bewertungen, die du gegeben hast, sind sehr verbreitet, kannst du mir bitte mehr erzählen?";
+                  var npsMuchDiff="";
+
+                 function start() {
+                  
+                  
+                  //console.log(localStorage.language);
+                  if (language == "es"){
+                    tex7=esText7;
+                    tex8=esText8;
+                    tex9=esText9;
+                    voice='es-ES_LauraVoice';
+                    promotor = esPromotor;
+                    detractor = esDetractor;
+                    modify=esModify;
+                    npsMuchDiff=esNpsMuchDiff;
+                  } 
+                  if (language == "fr"){
+                    tex7=frText7;
+                    tex8=frText8;
+                    tex9=frText9;
+                    voice='fr-FR_ReneeVoice';
+                    promotor = frPromotor;
+                    detractor = frDetractor;
+                    modify=frModify;
+                    npsMuchDiff=frNpsMuchDiff;
+                  } 
+                  if (language== "en"){
+                    tex7=enText7;
+                    tex8=enText8;
+                    tex9=enText9;
+                    voice='en-US_AllisonVoice';
+                    promotor = enPromotor;
+                    detractor = enDetractor;
+                    modify=enModify;
+                    npsMuchDiff= enNpsMuchDiff;
+                  } 
+                  if (language== "de"){
+                    tex7=deText7;
+                    tex8=deText8;
+                    tex9=deText9;
+                    voice='de-DE_DieterVoice';
+                    promotor = dePromotor;
+                    detractor = deDetractor;
+                    modify=deModify;
+                    npsMuchDiff= deNpsMuchDiff;
+                  } 
+
+                  fetch('/api/ttsToken').then(function(response) {
+                                                                  return response.text();
+                                                          }).then(function (token) {
+                                                                   WatsonSpeech.TextToSpeech.synthesize({
+                                                                   voice: voice,
+                                                                   text: tex7,
+                                                                   token: token
+                                                                  });
+                                                           });
+                  document.getElementById("text7").value = tex7;
+                  document.getElementById("text8").value = tex8;
+                  document.getElementById("text9").value = tex9+"  "+modify;
+
+              }
+               if (language == "de"){
+                $(div41).hide();
+              }
+
+              else {
+
+               document.querySelector('#recButton').onclick = function () {
+
+                fetch('/api/sttToken')
+                .then(function(response) {
+                    return response.text();
+                }).then(function (token) {
+
+                  var stream = WatsonSpeech.SpeechToText.recognizeMicrophone({
+                      token: token,
+                      outputElement: '#resultsText3' // CSS selector or DOM Element
+                  });
+
+                  stream.on('error', function(err) {
+                      console.log(err);
+                  });
+
+                  document.querySelector('#recButton').onclick = function() {
+                    stream.stop();
+                  };
+
+                }).catch(function(error) {
+                    console.log(error);
+                });
+              };
+            }
+                var nps=0;
+
+                  $("#validaterecord3").click(function(){
+                    
+                    //console.log("appel NLU");
+                    //console.log(document.querySelector("#model").value);
+                    //console.log(document.querySelector("#model").value.substr(0,2));
+                    $.get("/analyze/"+encodeURIComponent(document.getElementById("resultsText3").value)+"/"+language,function(data, status){
+                      if ( status == 'success') {
+                        // Analyse OK  
+                          sentiment3=data; 
+                          nps=Math.round((Math.round(data * 10) + 10)/2);
+                          document.getElementById("text9").value = tex9+nps+modify;
+                          //alert("Sentiment level: " + data+ "\nNPS: " + nps);
+                          //console.log("appel DB");
+                          //document.getElementById("text2").hidden = 'false';
+                          // Text to speech
+                         // document.querySelector('#button').onclick = function () {
+                          fetch('/api/ttsToken').then(function(response) {
+                                                                  return response.text();
+                                                          }).then(function (token) {
+                                                                   WatsonSpeech.TextToSpeech.synthesize({
+                                                                   voice:voice,
+                                                                   text: document.querySelector('#text9').value,
+                                                                   token: token
+                                                                  });
+                                                           });
+                          document.getElementById("range6").value = nps;
+                          modifyInputs();
+                          
+                        } else {
+                          // Analyse KO
+                           alert("Problem occured. Data: " + data + "\nStatus: " + status);
+                      }
+                    });
+
+                }); 
+
+                  function showVal(){
+                   //alert("showval");
+                   var x = Math.abs(((parseInt(localStorage.score1) + parseInt(localStorage.score2)+ parseInt(localStorage.score3) + parseInt(localStorage.score4))/4) - document.getElementById("range5").value);
+                    //console.log(document.getElementById("range5").value);
+                    //console.log((parseInt(localStorage.score1) + parseInt(localStorage.score2)+ parseInt(localStorage.score3) + parseInt(localStorage.score4)));
+                    //console.log(x);
+                    $(divp4).show();
+                     if (x<=3){
+                            if (document.getElementById("range5").value <= 7){
+                              document.getElementById("text8").value = detractor;
+                              
+                            } else {
+                              document.getElementById("text8").value = promotor;
+                            } 
+                     } else {
+                            document.getElementById("text8").value = npsMuchDiff;
+                     }
+                  }
+
+                   function speak(){
+                  // alert("showval");
+                     
+                  fetch('/api/ttsToken').then(function(response) {
+                                                                  return response.text();
+                                                          }).then(function (token) {
+                                                                   WatsonSpeech.TextToSpeech.synthesize({
+                                                                   voice: voice,
+                                                                   text: document.getElementById("text8").value,
+                                                                   token: token
+                                                                  });
+                                                           });
+
+                  
+            }
+
+
+
+
+             function modifyOffset() {
+                        var el, newPoint, newPlace, offset, siblings, k;
+                        width    = this.offsetWidth;
+                        newPoint = (this.value - this.getAttribute("min")) / (this.getAttribute("max") - this.getAttribute("min"));
+                        offset   = -1;
+                        if (newPoint < 0) { newPlace = 0;  }
+                        else if (newPoint > 1) { newPlace = width; }
+                        else { newPlace = width * newPoint + offset; offset -= newPoint;}
+                        siblings = this.parentNode.childNodes;
+                        for (var i = 0; i < siblings.length; i++) {
+                            sibling = siblings[i];
+                            if (sibling.id == this.id) { k = true; }
+                            if ((k == true) && (sibling.nodeName == "OUTPUT")) {
+                                outputTag = sibling;
+                            }
+                        }
+                        outputTag.style.left       = newPlace + "px";
+                        outputTag.style.marginLeft = offset + "%";
+                        outputTag.innerHTML        = this.value;
+              }
+
+              function modifyInputs() {
+    
+                      var inputs = document.getElementsByTagName("input");
+                      for (var i = 0; i < inputs.length; i++) {
+                          if (inputs[i].getAttribute("type") == "range") {
+                              inputs[i].onchange = modifyOffset;
+
+                              if ("fireEvent" in inputs[i]) {
+                                  inputs[i].fireEvent("onchange");
+                              } else {
+                                  var evt = document.createEvent("HTMLEvents");
+                                  evt.initEvent("change", false, true);
+                                  inputs[i].dispatchEvent(evt);
+                              }
+                          }
+                      }
+              }
+               modifyInputs();
+               document.getElementById('next').onclick = function() {
+                      window.open('page5.html',"_self");
+                      localStorage.setItem("score5",document.getElementById("range5").value);
+                      localStorage.setItem("text3",document.getElementById("resultsText3").value);
+                      localStorage.setItem("sentiment3", sentiment3);
+                      localStorage.setItem("score6",document.getElementById("range6").value);
+                      localStorage.setItem("tex7", tex7);
+               }
+               document.getElementById('back').onclick = function() {
+                      window.open('page3.html',"_self");
+              }
+                
+        </script>
+        
+        
+  </body>
+
+</html>

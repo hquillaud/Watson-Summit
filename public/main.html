@@ -1,0 +1,685 @@
+<!DOCTYPE html>
+<html>
+
+  <head>
+      <meta charset="UTF-8">
+        <title>Watson Speech to Sentiment</title>
+      <link rel="stylesheet" href="stylesheets/radio.css">
+        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+       <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+  </head>
+
+  <body onload="start()">
+        <div class="frame">
+           <div class="case">
+
+               <div class="screws">
+                  <div class="screw">
+                      <div class="left"></div>
+                      <div class="right"></div>
+                  </div>
+                  <div class="product">Watson Summit Analyser</div>
+                  <div class="screw2">
+                      <div class="left"></div>
+                      <div class="right"></div>
+                  </div>
+              </div>
+              
+              <div class="tuner">
+                  <textarea class="word" readonly="" id="text1" dir="auto"> </textarea>
+              </div> 
+                <div class="sec">
+                       <div class="buttondiv">   
+                            <div class="controls">
+                              <div class="button-block">
+                                 <div class="control">
+                                       <div id="recordButton1" class="record"><img src="img/microphone.png" /></div>
+                                       <label class="controlLabel">RECORD</label>
+                                 </div>
+                                 
+                            </div>
+                          </div>
+                       </div>
+
+                       <div class="buttondiv">   
+                            <div class="controls">
+                              <div class="button-block">
+                                 <div class="control">
+                                     <div id="stop1" class="stop"><img src="img/muted.png" /></div>
+                                     <label class="controlLabel">STOP</label>
+                                </div>  
+                            </div>
+                          </div>
+                       </div>
+
+                        
+                  </div>
+                  <div class="section">  
+
+                        <div>
+                           <!-- <p><small><i>Please choose a language :</i></small><select id="model"></select> </p>-->
+                        </div> 
+                        <div class="grill" id="grill">
+                            <textarea class="words" id="resultsText1" dir="auto"></textarea>
+                            <svg width="100%" height="100%" xmlns="http://www.w3.org/2000/svg">
+                                <defs>
+                                    <pattern id="smallGrid" width="2" height="2" patternUnits="userSpaceOnUse">
+                                        <path d="M 8 0 L 0 0 0 8" fill="none" stroke="#8F9C78" stroke-width="0.5" />
+                                    </pattern>
+                                    <pattern id="grid" width="80" height="80" patternUnits="userSpaceOnUse">
+                                        <rect width="80" height="80" fill="url(#smallGrid)" />      
+                                    </pattern>
+                                </defs>
+                                <rect width="100%" height="100%" fill="url(#grid)" />
+                            </svg>
+                        </div>
+                 </div>
+
+
+                  <div class="sec2">
+                       <div class="buttondiv">  
+                          <div class="controls">
+                                 <div class="button-block">
+                                     <div class="control">
+                                         <div  id="validaterecord1" class="button play-sample-1"></div>
+                                         <label class="controlLabel">OK</label>
+                                     </div>
+                                 </div>
+                          </div>
+                      </div>
+                  </div>
+      
+                  
+
+                  <!--      NLU : EXTRACTION DE SENTIMENT, CALCUL ET SAUVEGARDE DE NPS    -->
+
+
+
+                  <div class="tuner">
+                      <textarea class="word" readonly="" id="text2" dir="auto" > 
+                      </textarea>
+                  </div> 
+                  <form>
+                       <input id="range1" type="range" name="foo" min="0" max="10">
+                        <output for="foo" onforminput="value = foo.valueAsNumber;"></output>
+                    </form>
+
+                  <div class="tuner2">
+                      <textarea class="word" readonly="" id="text3" dir="auto" > 
+                      </textarea>
+                  </div> 
+
+                <div>  
+                    <form>
+                       <input id="range2" type="range" name="foo" min="0" max="10">
+                        <output for="foo" onforminput="value = foo.valueAsNumber;"></output>
+                    </form>
+                </div>
+
+                <div class="tuner2">
+                      <textarea class="word" readonly="" id="text4" dir="auto" >
+                      </textarea>
+                </div> 
+
+                  <div>  
+                    <form>
+                       <input id="range3" type="range" name="foo" min="0" max="10">
+                        <output for="foo" onforminput="value = foo.valueAsNumber;"></output>
+                    </form>
+                </div>
+
+                <div class="tuner">
+                  <textarea class="word" readonly="" id="text5" dir="auto"></textarea>
+              </div> 
+               <div class="sec">
+                       <div class="buttondiv">   
+                            <div class="controls">
+                              <div class="button-block">
+                                 <div class="control">
+                                       <div id="recordButton2" class="record"><img src="img/microphone.png" /></div>
+                                       <label class="controlLabel">RECORD</label>
+                                 </div>
+                                 
+                            </div>
+                          </div>
+                       </div>
+
+                       <div class="buttondiv">   
+                            <div class="controls">
+                              <div class="button-block">
+                                 <div class="control">
+                                     <div id="stop2" class="stop"><img src="img/muted.png" /></div>
+                                     <label class="controlLabel">STOP</label>
+                                </div>  
+                            </div>
+                          </div>
+                       </div>          
+               </div>
+              <div class="section">  
+
+                       
+                        <div class="grill" id="grill">
+                            <textarea class="words" id="resultsText2" dir="auto"></textarea>
+                            <svg width="100%" height="100%" xmlns="http://www.w3.org/2000/svg">
+                                <defs>
+                                    <pattern id="smallGrid" width="2" height="2" patternUnits="userSpaceOnUse">
+                                        <path d="M 8 0 L 0 0 0 8" fill="none" stroke="#8F9C78" stroke-width="0.5" />
+                                    </pattern>
+                                    <pattern id="grid" width="80" height="80" patternUnits="userSpaceOnUse">
+                                        <rect width="80" height="80" fill="url(#smallGrid)" />      
+                                    </pattern>
+                                </defs>
+                                <rect width="100%" height="100%" fill="url(#grid)" />
+                            </svg>
+                        </div>
+                 </div>
+               <div class="sec2">
+                       <div class="buttondiv">  
+                          <div class="controls">
+                                 <div class="button-block">
+                                     <div class="control">
+                                         <div  id="validaterecord2" class="button play-sample-1"></div>
+                                         <label class="controlLabel">OK</label>
+                                     </div>
+                                 </div>
+                          </div>
+                      </div>
+                  </div> 
+                    <div class="tuner">
+                      <textarea class="word" readonly="" id="text6" dir="auto" > 
+                      </textarea>
+                  </div> 
+                  <form>
+                       <input id="range4" type="range" name="foo" min="0" max="10">
+                        <output for="foo" onforminput="value = foo.valueAsNumber;"></output>
+                    </form>
+              <div class="tuner2">
+                      <textarea class="word" readonly="" id="text7" dir="auto" >
+                      </textarea>
+                </div> 
+                  <div>  
+                    <form>
+                       <input id="range5" type="range" name="foo" min="0" max="10" oninput="showVal()" >
+                        <output for="foo" onforminput="value = foo.valueAsNumber;" ></output>
+                    </form>
+                </div>
+
+                 <div class="tuner2">
+                      <textarea class="word" readonly="" id="text8" dir="auto" > 
+                      Selon le NPS
+                      </textarea>
+                </div> 
+                <div class="sec">
+                       <div class="buttondiv">   
+                            <div class="controls">
+                              <div class="button-block">
+                                 <div class="control">
+                                       <div id="recordButton3" class="record"><img src="img/microphone.png" /></div>
+                                       <label class="controlLabel">RECORD</label>
+                                 </div>
+                                 
+                            </div>
+                          </div>
+                       </div>
+
+                       <div class="buttondiv">   
+                            <div class="controls">
+                              <div class="button-block">
+                                 <div class="control">
+                                     <div id="stop3" class="stop"><img src="img/muted.png" /></div>
+                                     <label class="controlLabel">STOP</label>
+                                </div>  
+                            </div>
+                          </div>
+                       </div>          
+               </div>
+              <div class="section">  
+
+                        <div>
+                           <!-- <p><small><i>Please choose a language :</i></small><select id="model"></select> </p>-->
+                        </div> 
+                        <div class="grill" id="grill">
+                            <textarea class="words" id="resultsText3" dir="auto"></textarea>
+                            <svg width="100%" height="100%" xmlns="http://www.w3.org/2000/svg">
+                                <defs>
+                                    <pattern id="smallGrid" width="2" height="2" patternUnits="userSpaceOnUse">
+                                        <path d="M 8 0 L 0 0 0 8" fill="none" stroke="#8F9C78" stroke-width="0.5" />
+                                    </pattern>
+                                    <pattern id="grid" width="80" height="80" patternUnits="userSpaceOnUse">
+                                        <rect width="80" height="80" fill="url(#smallGrid)" />      
+                                    </pattern>
+                                </defs>
+                                <rect width="100%" height="100%" fill="url(#grid)" />
+                            </svg>
+                        </div>
+                 </div>
+               <div class="sec2">
+                       <div class="buttondiv">  
+                          <div class="controls">
+                                 <div class="button-block">
+                                     <div class="control">
+                                         <div  id="validaterecord3" class="button play-sample-1"></div>
+                                         <label class="controlLabel">OK</label>
+                                     </div>
+                                 </div>
+                          </div>
+                      </div>
+                  </div> 
+                   <div class="tuner">
+                      <textarea class="word" readonly="" id="text9" dir="auto" > 
+                      </textarea>
+                  </div> 
+                  <form>
+                       <input id="range6" type="range" name="foo" min="0" max="10">
+                        <output for="foo" onforminput="value = foo.valueAsNumber;"></output>
+                    </form>
+                  <div class="tuner2">
+                      <textarea class="word" readonly="" id="text10" dir="auto" >  
+                      </textarea>
+                </div> 
+                 <div class="sec3">
+                       <div class="buttondiv2">  
+                          <div class="controls1">
+                                 <div class="button-block">
+                                     <div class="control">
+                                         <div  id="submit" class="submit"><label class="controlLabel1">Submit</label></div>
+                                         
+                                     </div>
+                                 </div>
+                          </div>
+                      </div>
+                  </div>
+
+                <div class="screws">
+                  <div class="screw">
+                      <div class="left"></div>
+                      <div class="right"></div>
+                  </div>
+                  <div class="screw2">
+                      <div class="left"></div>
+                      <div class="right"></div>
+                  </div>
+              </div>
+
+
+           </div>
+        </div>
+       <script src="./js/watson-speech.js"></script>
+       <script>  
+
+            var voice ='';
+            var language=localStorage.language;
+            var enPromotor ="What was your best experience at the event ?";
+                  var esPromotor ="¿Cuál fue tu mejor experiencia en el evento?";
+                  var frPromotor ="Quelle a été votre meilleure expérience lors de l'événement?";
+
+                  var enDectractor ="What was your worst experience at the event ? ";
+                  var esDectractor ="¿Cuál fue tu peor experiencia en el evento?";
+                  var frDectractor ="Quelle a été votre pire expérience lors de l'événement?";
+
+                 function start() {
+                  var enText ="Hello and thank you for attending Watson Summit. We'd like to hear from you with a quick 5-question survey. First, how was your overall experience here today?";
+                  var frText="Bonjour et merci d'avoir assisté à Watson Summit. Nous aimerions avoir de vos nouvelles avec un sondage rapide de 5 questions. Tout d'abord, comment était votre expérience globale ici aujourd'hui?";
+                  var esText="Hola y gracias por asistir a Watson Summit. Nos gustaría saber de usted con una encuesta rápida de 5 preguntas. En primer lugar, ¿cómo fue su experiencia general aquí hoy?";
+                  var tex1= "";
+
+                  var enText2="Based on what you told me, I understand you would rate your experience as mentioned below. Please correct as needed and validate this rating.";
+                  var esText2="Según lo que me dijiste, entiendo que calificarías tu experiencia como se menciona a continuación. Corrija según sea necesario y valide esta calificación.";
+                  var frText2="D'après ce que vous m'avez dit, je comprends que vous évalueriez votre expérience en tant que mentionné ci-dessous. Veuillez corriger au besoin et valider cette note.";
+                  var tex2= "";
+
+                  var enText3="On a scale of 0 to 10, how worthwhile was the time you spent here so far?";
+                  var esText3="En una escala de 0 a 10, ¿qué tan útil fue el tiempo que pasó aquí hasta ahora?";
+                  var frText3="Sur une échelle de 0 à 10, combien veloit était le temps que vous avez passé jusqu'ici?";
+                  var tex3= "";
+
+                  var enText4="On a scale of 0 to 10, how relevant is the content to your role and professional aspiration?";
+                  var esText4="En una escala de 0 a 10, ¿qué tan relevante es el contenido de su rol y aspiración profesional?";
+                  var frText4="Sur une échelle de 0 à 10, quelle est l'importance du contenu pour votre rôle et votre aspiration professionnelle?";
+                  var tex4= "";
+
+                  var enText5="On a scale of 0 to 10, how innovative do you consider this experience to be? Innovation defined as the use of digital techniques and new technologies to enhance your experience, activations or experiential showcases.";
+                  var esText5="n una escala de 0 a 10, ¿qué tan innovadora considera esta experiencia? La innovación se define como el uso de técnicas digitales y nuevas tecnologías para mejorar su experiencia, activaciones o exposiciones experimentales.";
+                  var frText5="Sur une échelle de 0 à 10, quelle innovation considérez-vous comme expérience? L'innovation est définie comme l'utilisation de techniques numériques et de nouvelles technologies pour améliorer votre expérience, vos activations ou vos vitrines expérimentales.";
+                  var tex5= "";
+
+                  var enText6="Based on what you told me, I understand you would rate your experience as mentioned below. Please correct as needed and validate this rating.";
+                  var esText6="Según lo que me dijiste, entiendo que calificarías tu experiencia como se menciona a continuación. Corrija según sea necesario y valide esta calificación.";
+                  var frText6="D'après ce que vous m'avez dit, je comprends que vous évalueriez votre expérience en tant que montionné ci-dessous. Veuillez corriger au besoin et valider cette note.";
+                  var tex6= "";
+
+                  var enText7=" On a scale of 0 to 10, how likely are you to recommend IBM to a friend or colleague?";
+                  var esText7="En una escala de 0 a 10, ¿cuál es la probabilidad de recomendar IBM a un amigo o colega?";
+                  var frText7="Sur une échelle de 0 à 10, quelle est la probabilité de recommander IBM à un ami ou à un collègue?";
+                  var tex7= "";
+
+                  var enText8="";
+                  var esText8="";
+                  var frText8="";
+                  var tex8= "";
+
+                  var enText9="Based on what you told me, I understand you would rate your experience as mentioned below. Please correct as needed and validate this rating.";
+                  var esText9="Según lo que me dijiste, entiendo que calificarías tu experiencia como se menciona a continuación. Corrija según sea necesario y valide esta calificación.";
+                  var frText9="D'après ce que vous m'avez dit, je comprends que vous évalueriez votre expérience en tant que montionné ci-dessous. Veuillez corriger au besoin et valider cette note.";
+                  var tex9= "";
+
+                  var enText10="That's all, thank you again and goodbye.";
+                  var esText10="Eso es todo, gracias de nuevo y adiós.";
+                  var frText10="C'est tout, merci encore et au revoir.";
+                  var tex10= "";
+
+                  
+
+                  
+                  //console.log(localStorage.language);
+                  if (language == "es"){
+                    tex1=esText;
+                    tex2=esText2;
+                    tex3=esText3;
+                    tex4=esText4;
+                    tex5=esText5;
+                    tex6=esText6;
+                    tex7=esText7;
+                    tex8=esText8;
+                    tex9=esText9;
+                    tex10=esText10;
+                    voice='es-ES_LauraVoice';
+                  } 
+                  if (language == "fr"){
+                    tex1=frText;
+                    tex2=frText2;
+                    tex3=frText3;
+                    tex4=frText4;
+                    tex5=frText5;
+                    tex6=frText6;
+                    tex7=frText7;
+                    tex8=frText8;
+                    tex9=frText9;
+                    tex10=frText10;
+                    voice='fr-FR_ReneeVoice';
+                  } 
+                  if (language== "en"){
+                    tex1=enText;
+                    tex2=enText2;
+                    tex3=enText3;
+                    tex4=enText4;
+                    tex5=enText5;
+                    tex6=enText6;
+                    tex7=enText7;
+                    tex8=enText8;
+                    tex9=enText9;
+                    tex10=enText10;
+                    voice='en-US_AllisonVoice';
+                  } 
+
+                  fetch('/api/ttsToken').then(function(response) {
+                                                                  return response.text();
+                                                          }).then(function (token) {
+                                                                   WatsonSpeech.TextToSpeech.synthesize({
+                                                                   voice: voice,
+                                                                   text: tex1,
+                                                                   token: token
+                                                                  });
+                                                           });
+                  document.getElementById("text1").value = tex1;
+                  document.getElementById("text2").value = tex2;
+                  document.getElementById("text3").value = tex3;
+                  document.getElementById("text4").value = tex4;
+                  document.getElementById("text5").value = tex5;
+                  document.getElementById("text6").value = tex6;
+                  document.getElementById("text7").value = tex7;
+                  document.getElementById("text8").value = tex8;
+                  document.getElementById("text9").value = tex9;
+                  document.getElementById("text10").value = tex10;
+
+              }
+
+              function getTtsToken() {
+                return fetch('/api/sttToken')
+                  .then(function(response) {
+                    return response.text();
+                  });
+              }
+              // fetch the models and populate the dropdown
+              getTtsToken().then(function (token) {
+                    return WatsonSpeech.SpeechToText.getModels({token: token});
+              }).then(function (models) {
+
+                    /*var dropdown = document.querySelector('#model');
+
+                    models.forEach(function (m) {
+                       var o = document.createElement('option');
+                       o.value = m.name;
+                       o.textContent = m.name;
+                       if (m.name === 'en-US_BroadbandModel') {
+                           o.selected = true;
+                       }
+                    dropdown.appendChild(o);
+                  });           document.querySelector('#model').value */
+                }).catch(console.error.bind(console));
+              //var language= 'en-US_BroadbandModel';
+              // recognize the text using the chosen model
+
+
+              document.querySelector('#recordButton1').onclick = function () {
+                getTtsToken().then(function (token) {
+                  var stream = WatsonSpeech.SpeechToText.recognizeMicrophone({
+                      token: token,
+                      model: language,
+                      outputElement: '#resultsText1' // CSS selector or DOM Element
+                  });
+                  stream.on('error', function(err) {
+                      console.log(err);
+                  });
+                  document.querySelector('#stop1').onclick = stream.stop.bind(stream);
+                }).catch(function(error) {
+                    console.log(error);
+                });
+              };
+
+             document.querySelector('#recordButton2').onclick = function () {
+                getTtsToken().then(function (token) {
+                  var stream = WatsonSpeech.SpeechToText.recognizeMicrophone({
+                      token: token,
+                      model: language,
+                      outputElement: '#resultsText2' // CSS selector or DOM Element
+                  });
+                  stream.on('error', function(err) {
+                      console.log(err);
+                  });
+                  document.querySelector('#stop2').onclick = stream.stop.bind(stream);
+                }).catch(function(error) {
+                    console.log(error);
+                });
+              };
+               document.querySelector('#recordButton3').onclick = function () {
+                getTtsToken().then(function (token) {
+                  var stream = WatsonSpeech.SpeechToText.recognizeMicrophone({
+                      token: token,
+                      model: language,
+                      outputElement: '#resultsText3' // CSS selector or DOM Element
+                  });
+                  stream.on('error', function(err) {
+                      console.log(err);
+                  });
+                  document.querySelector('#stop3').onclick = stream.stop.bind(stream);
+                }).catch(function(error) {
+                    console.log(error);
+                });
+              };
+
+
+                  $("#validaterecord1").click(function(){
+                    var estimated_value=1;
+                    //console.log("appel NLU");
+                    //console.log(document.querySelector("#model").value);
+                    //console.log(document.querySelector("#model").value.substr(0,2));
+                    $.get("/analyze/"+encodeURIComponent(document.getElementById("resultsText1").value)+"/"+language,function(data, status){
+                      if ( status == 'success') {
+                        // Analyse OK   
+                          estimated_value=Math.round((Math.round(data * 10) + 10)/2);
+                          //alert("Sentiment level: " + data+ "\nNPS: " + nps);
+                          //console.log("appel DB");
+                          //document.getElementById("text2").hidden = 'false';
+                          // Text to speech
+                         // document.querySelector('#button').onclick = function () {
+                          fetch('/api/ttsToken').then(function(response) {
+                                                                  return response.text();
+                                                          }).then(function (token) {
+                                                                   WatsonSpeech.TextToSpeech.synthesize({
+                                                                   voice:voice,
+                                                                   text: document.querySelector('#text2').value,
+                                                                   token: token
+                                                                  });
+                                                           });
+                          document.getElementById("range1").value = estimated_value;
+                          modifyInputs();
+                          //};
+                          //call the api of inserting in DB
+                          $.post("/db/record",
+                          {username: 'user2', record1: document.getElementById("resultsText1").value, sentiment1: data, nps: estimated_value},
+                          function(data, status){
+                              alert("Data: " + data + "\nStatus: " + status);
+                          });
+                        } else {
+                          // Analyse KO
+                           alert("Problem occured. Data: " + data + "\nStatus: " + status);
+                      }
+                    });
+
+                }); 
+
+
+
+                  $("#validaterecord2").click(function(){
+                    var estimated_value=1;
+                    //console.log("appel NLU");
+                    //console.log(document.querySelector("#model").value);
+                    //console.log(document.querySelector("#model").value.substr(0,2));
+                    $.get("/analyze/"+encodeURIComponent(document.getElementById("resultsText2").value)+"/"+language,function(data, status){
+                      if ( status == 'success') {
+                        // Analyse OK   
+                          estimated_value=Math.round((Math.round(data * 10) + 10)/2);
+                          //alert("Sentiment level: " + data+ "\nNPS: " + nps);
+                          //console.log("appel DB");
+                          //document.getElementById("text2").hidden = 'false';
+                          // Text to speech
+                         // document.querySelector('#button').onclick = function () {
+                          fetch('/api/ttsToken').then(function(response) {
+                                                                  return response.text();
+                                                          }).then(function (token) {
+                                                                   WatsonSpeech.TextToSpeech.synthesize({
+                                                                   voice:voice,
+                                                                   text: document.querySelector('#text6').value,
+                                                                   token: token
+                                                                  });
+                                                           });
+                          document.getElementById("range4").value = estimated_value;
+                          modifyInputs();
+                          //};
+                          
+                        } else {
+                          // Analyse KO
+                           alert("Problem occured. Data: " + data + "\nStatus: " + status);
+                      }
+                    });
+
+                }); 
+
+
+                  $("#validaterecord3").click(function(){
+                    var nps=1;
+                    //console.log("appel NLU");
+                    //console.log(document.querySelector("#model").value);
+                    //console.log(document.querySelector("#model").value.substr(0,2));
+                    $.get("/analyze/"+encodeURIComponent(document.getElementById("resultsText3").value)+"/"+language,function(data, status){
+                      if ( status == 'success') {
+                        // Analyse OK   
+                          nps=Math.round((Math.round(data * 10) + 10)/2);
+                          //alert("Sentiment level: " + data+ "\nNPS: " + nps);
+                          //console.log("appel DB");
+                          //document.getElementById("text2").hidden = 'false';
+                          // Text to speech
+                         // document.querySelector('#button').onclick = function () {
+                          fetch('/api/ttsToken').then(function(response) {
+                                                                  return response.text();
+                                                          }).then(function (token) {
+                                                                   WatsonSpeech.TextToSpeech.synthesize({
+                                                                   voice:voice,
+                                                                   text: document.querySelector('#text9').value,
+                                                                   token: token
+                                                                  });
+                                                           });
+                          document.getElementById("range6").value = nps;
+                          modifyInputs();
+                          
+                        } else {
+                          // Analyse KO
+                           alert("Problem occured. Data: " + data + "\nStatus: " + status);
+                      }
+                    });
+
+                }); 
+
+                  function showVal(){
+                   //alert("showval");
+                     if (document.getElementById("range5").value <= 7){
+                        document.getElementById("text8").value = enDectractor;
+                        
+                  } else {
+                        document.getElementById("text8").value = enPromotor;
+                  }
+                    
+
+                  }
+
+
+
+
+
+             function modifyOffset() {
+                        var el, newPoint, newPlace, offset, siblings, k;
+                        width    = this.offsetWidth;
+                        newPoint = (this.value - this.getAttribute("min")) / (this.getAttribute("max") - this.getAttribute("min"));
+                        offset   = -1;
+                        if (newPoint < 0) { newPlace = 0;  }
+                        else if (newPoint > 1) { newPlace = width; }
+                        else { newPlace = width * newPoint + offset; offset -= newPoint;}
+                        siblings = this.parentNode.childNodes;
+                        for (var i = 0; i < siblings.length; i++) {
+                            sibling = siblings[i];
+                            if (sibling.id == this.id) { k = true; }
+                            if ((k == true) && (sibling.nodeName == "OUTPUT")) {
+                                outputTag = sibling;
+                            }
+                        }
+                        outputTag.style.left       = newPlace + "px";
+                        outputTag.style.marginLeft = offset + "%";
+                        outputTag.innerHTML        = this.value;
+              }
+
+              function modifyInputs() {
+    
+                      var inputs = document.getElementsByTagName("input");
+                      for (var i = 0; i < inputs.length; i++) {
+                          if (inputs[i].getAttribute("type") == "range") {
+                              inputs[i].onchange = modifyOffset;
+
+                              if ("fireEvent" in inputs[i]) {
+                                  inputs[i].fireEvent("onchange");
+                              } else {
+                                  var evt = document.createEvent("HTMLEvents");
+                                  evt.initEvent("change", false, true);
+                                  inputs[i].dispatchEvent(evt);
+                              }
+                          }
+                      }
+              }
+
+modifyInputs();
+       </script> 
+  
+        
+  </body>
+
+</html>

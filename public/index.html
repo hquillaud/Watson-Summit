@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html>
+
+  <head>
+      <meta charset="UTF-8">
+        <title>Watson Speech to Sentiment</title>
+        <link rel="stylesheet" href="stylesheets/radio.css">
+        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+       <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+      <link 
+              rel="stylesheet" 
+              href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" 
+              integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" 
+              crossorigin="anonymous">
+  </head>
+
+  <body background="img/brickwall.png">
+        <div class="frame lg-col-2">
+
+          <div class="case1 lg-col-2">
+                <!--<div class="screws">
+                  <div class="screw">
+                      <div class="left"></div>
+                      <div class="right"></div>
+                  </div>
+                  <div class="product">Watson Summit Analyser</div> 
+                  <div class="screw2">
+                      <div class="left"></div>
+                      <div class="right"></div>
+                  </div>
+              </div> -->
+              
+             <!-- <div class="tuner">
+                  <textarea class="word" readonly="" id="text" dir="auto" ></textarea> 
+              </div> -->
+              <img src="img/watson.jpg"  width="100%" height="50%"/>
+                <div class="sec1">
+                       <div class="buttondiv1">   
+                            <div class="controls">
+                              <div class="button-block1">
+                                 <div class="control1">
+                                       <div id="en_lang" class="enButton"><img src="img/united-kingdom.png" /></div>
+                                       <label class="controlLabel">English</label>
+                                 </div>
+                                 
+                            </div>
+                          </div>
+                       </div>
+                       <div class="buttondiv1">   
+                            <div class="controls">
+                              <div class="button-block1">
+                                 <div class="control1">
+                                       <div id="fr_lang" class="frButton"><img src="img/france.png" /></div>
+                                       <label class="controlLabel">Français</label>
+                                 </div>
+                                 
+                            </div>
+                          </div>
+                       </div>
+
+                       <div class="buttondiv1">   
+                            <div class="controls">
+                              <div class="button-block1">
+                                 <div class="control1">
+                                     <div id="esp_lang" class="esButton"><img src="img/spain.png" /></div>
+                                     <label class="controlLabel">Español</label>
+                                </div>  
+                            </div>
+                          </div>
+                       </div> 
+                        <div class="buttondiv1">   
+                            <div class="controls">
+                              <div class="button-block1">
+                                 <div class="control1">
+                                     <div id="de_lang" class="esButton"><img src="img/germany.png" /></div>
+                                     <label class="controlLabel">Deutsch</label>
+                                </div>  
+                            </div>
+                          </div>
+                       </div>         
+                  </div>
+                 <!-- <div class="screws">
+                  <div class="screw2">
+                      <div class="left"></div>
+                      <div class="right"></div>
+                  </div>
+                  <div class="screw">
+                      <div class="left"></div>
+                      <div class="right"></div>
+                  </div>
+        </div> -->
+           </div>
+        </div>
+       <script>
+       localStorage.setItem("language", " ")
+        document.getElementById('en_lang').onclick = function() {
+            localStorage.setItem("language", "en");
+            window.open('page1.html',"_self");
+        }
+        document.getElementById('fr_lang').onclick = function() {
+            localStorage.setItem("language", "fr");
+            window.open('page1.html',"_self");
+        }
+        document.getElementById('esp_lang').onclick = function() {
+            localStorage.setItem("language", "es");
+            window.open('page1.html',"_self");
+        }
+        document.getElementById('de_lang').onclick = function() {
+            localStorage.setItem("language", "de");
+            window.open('page1.html',"_self");
+        }
+        </script>
+        
+        
+  </body>
+
+</html>

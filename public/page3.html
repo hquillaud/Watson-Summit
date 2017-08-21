@@ -1,0 +1,263 @@
+<!DOCTYPE html>
+<html>
+
+  <head>
+      <meta charset="UTF-8">
+        <title>Watson Speech to Sentiment</title>
+        <link rel="stylesheet" href="stylesheets/radio.css">
+        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+       <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+  </head>
+
+   <body background="img/brickwall.png" onload="start()">
+        <div class="frame">
+             <div class="casep3">
+              <img src="img/Watson_Summit.png"  width="100%" height="10%"/>
+
+
+                
+                <div class="tuner">
+                 <img src="img/watsson.png" class = "imgwatson"/>
+                  <textarea class="word" readonly="" id="text5" dir="auto"></textarea>
+              </div> 
+               <div class="sec" id="divp31">
+                       <div class="controls"> 
+                                     <button id="recButton"></button>
+                                     <label class="controlLabel" id="labell">RECORD</label>
+                       </div>           
+               </div>
+              <div class="section">  
+
+                       
+                        <div class="grill" id="grill">
+                            <textarea class="words" id="resultsText2" dir="auto"></textarea>
+                            <svg width="100%" height="100%" xmlns="http://www.w3.org/2000/svg">
+                                <defs>
+                                    <pattern id="smallGrid" width="2" height="2" patternUnits="userSpaceOnUse">
+                                        <path d="M 8 0 L 0 0 0 8" fill="none" stroke="#8F9C78" stroke-width="0.5" />
+                                    </pattern>
+                                    <pattern id="grid" width="80" height="80" patternUnits="userSpaceOnUse">
+                                        <rect width="80" height="80" fill="url(#smallGrid)" />      
+                                    </pattern>
+                                </defs>
+                                <rect width="100%" height="100%" fill="url(#grid)" />
+                            </svg>
+                        </div>
+                 </div>
+               <div class="sec22">
+                        <div class="controlsvalidate">   
+                                      <label class="controlLabell">Validate and calculate rating</label>
+                                      <div  id="validaterecord2" > <img src="img/enter-arrow.png" class="controlLabela"/></div>
+                                      
+                  </div> 
+                  </div> 
+                    <div class="tuner">
+                     <img src="img/watsson.png" class = "imgwatson"/>
+                      <textarea class="word" readonly="" id="text6" dir="auto" > 
+                      </textarea>
+                  </div> 
+                  <form>
+                       <input id="range4"  class= "rangeclass" type="range" name="foo" min="0" max="10">
+                        <output for="foo" onforminput="value = foo.valueAsNumber;"></output>
+                    </form>
+
+                 
+                      <div class="controls5"> 
+                                     <div  id="back" class="back"><label class="controlLabel1"> << Back </label></div>
+                                     <div  id="next" class="next"><label class="controlLabel1">Next >> </label></div>
+                                         
+                       </div> 
+            </div>   
+        </div>
+        <script src="./js/watson-speech.js"></script>
+        <script>
+            var voice ='';
+            var sentiment2=0;
+            var language=localStorage.language;
+            var enText5="How innovative do you consider this experience to be? Innovation defined as the use of digital techniques and new technologies to enhance your experience, activations or experiential showcases.";
+                  var esText5="¿qué tan innovadora considera esta experiencia? La innovación se define como el uso de técnicas digitales y nuevas tecnologías para mejorar su experiencia, activaciones o exposiciones experimentales.";
+                  var frText5="Quelle innovation considérez-vous comme expérience? L'innovation est définie comme l'utilisation de techniques numériques et de nouvelles technologies pour améliorer votre expérience, vos activations ou vos vitrines expérimentales.";
+                  var deText5="Was Sie Innovation Erfahrung in Betracht ziehen? Innovation wird als die Verwendung von digitalen Techniken definiert und neuen Technologien, um Ihre Erfahrung zu verbessern oder Ihre Aktivierungen experimentelle Vitrinen.";
+                  var tex5= "";
+
+                  var enText6="Based on what you told me, I understand you would rate your experience as a ";
+                  var esText6="Basado en lo que me dijiste, entiendo que calificarías tu experiencia como un ";
+                  var frText6="Selon ce que vous m'avez dit, je comprends que vous évaluerez votre expérience comme ";
+                  var deText6="Je nachdem, was Sie mir gesagt haben, verstehe ich, dass Sie Ihre Erfahrungen auswerten als ";
+                  var tex6= "";
+
+                  var enModify=". Please feel free to modify as needed.";
+                  var esModify=". Por favor, siéntase libre de modificarlo según sea necesario.";
+                  var frModify=". N'hésitez pas à modifier au besoin.";
+                  var deModify=". Fühlen Sie sich frei nach Bedarf zu ändern.";
+                  var modify="";
+
+                 function start() {
+                  //console.log(localStorage.language);
+                  if (language == "es"){
+                    tex5=esText5;
+                    tex6=esText6;
+                    voice='es-ES_LauraVoice';
+                    modify=esModify;
+                  } 
+                  if (language == "fr"){
+                    tex5=frText5;
+                    tex6=frText6;
+                    voice='fr-FR_ReneeVoice';
+                    modify=frModify;
+                  } 
+                  if (language== "en"){
+                    tex5=enText5;
+                    tex6=enText6;
+                    voice='en-US_AllisonVoice';
+                    modify=enModify;
+                  } 
+                  if (language== "de"){
+                    tex5=deText5;
+                    tex6=deText6;
+                    voice='de-DE_DieterVoice';
+                    modify=deModify;
+                  } 
+
+
+                  fetch('/api/ttsToken').then(function(response) {
+                                                                  return response.text();
+                                                          }).then(function (token) {
+                                                                   WatsonSpeech.TextToSpeech.synthesize({
+                                                                   voice: voice,
+                                                                   text: tex5,
+                                                                   token: token
+                                                                  });
+                                                           });
+                  document.getElementById("text5").value = tex5;
+                  document.getElementById("text6").value = tex6+"  "+modify;
+
+              }
+               if (language == "de"){
+                $(divp31).hide();
+              }
+
+              else {
+
+              document.querySelector('#recButton').onclick = function () {
+
+                fetch('/api/sttToken')
+                .then(function(response) {
+                    return response.text();
+                }).then(function (token) {
+
+                  var stream = WatsonSpeech.SpeechToText.recognizeMicrophone({
+                      token: token,
+                      outputElement: '#resultsText2' // CSS selector or DOM Element
+                  });
+
+                  stream.on('error', function(err) {
+                      console.log(err);
+                  });
+
+                  document.querySelector('#recButton').onclick = function() {
+                    stream.stop();
+                  };
+
+                }).catch(function(error) {
+                    console.log(error);
+                });
+              }; 
+            }
+
+                  $("#validaterecord2").click(function(){
+                    var estimated_value=1;
+                    //console.log("appel NLU");
+                    //console.log(document.querySelector("#model").value);
+                    //console.log(document.querySelector("#model").value.substr(0,2));
+                    $.get("/analyze/"+encodeURIComponent(document.getElementById("resultsText2").value)+"/"+language,function(data, status){
+                      if ( status == 'success') {
+                        // Analyse OK   
+                          sentiment2=data;
+                          estimated_value=Math.round((Math.round(data * 10) + 10)/2);
+                            document.getElementById("text6").value = tex6+estimated_value+modify;
+                          //alert("Sentiment level: " + data+ "\nNPS: " + nps);
+                          //console.log("appel DB");
+                          //document.getElementById("text2").hidden = 'false';
+                          // Text to speech
+                         // document.querySelector('#button').onclick = function () {
+                          fetch('/api/ttsToken').then(function(response) {
+                                                                  return response.text();
+                                                          }).then(function (token) {
+                                                                   WatsonSpeech.TextToSpeech.synthesize({
+                                                                   voice: voice,
+                                                                   text: document.querySelector('#text6').value,
+                                                                   token: token
+                                                                  });
+                                                           });
+                          document.getElementById("range4").value = estimated_value;
+                          modifyInputs();
+                          //};
+                          
+                        } else {
+                          // Analyse KO
+                           alert("Problem occured. Data: " + data + "\nStatus: " + status);
+                      }
+                    });
+
+                }); 
+
+
+
+             function modifyOffset() {
+                        var el, newPoint, newPlace, offset, siblings, k;
+                        width    = this.offsetWidth;
+                        newPoint = (this.value - this.getAttribute("min")) / (this.getAttribute("max") - this.getAttribute("min"));
+                        offset   = -1;
+                        if (newPoint < 0) { newPlace = 0;  }
+                        else if (newPoint > 1) { newPlace = width; }
+                        else { newPlace = width * newPoint + offset; offset -= newPoint;}
+                        siblings = this.parentNode.childNodes;
+                        for (var i = 0; i < siblings.length; i++) {
+                            sibling = siblings[i];
+                            if (sibling.id == this.id) { k = true; }
+                            if ((k == true) && (sibling.nodeName == "OUTPUT")) {
+                                outputTag = sibling;
+                            }
+                        }
+                        outputTag.style.left       = newPlace + "px";
+                        outputTag.style.marginLeft = offset + "%";
+                        outputTag.innerHTML        = this.value;
+              }
+
+              function modifyInputs() {
+    
+                      var inputs = document.getElementsByTagName("input");
+                      for (var i = 0; i < inputs.length; i++) {
+                          if (inputs[i].getAttribute("type") == "range") {
+                              inputs[i].onchange = modifyOffset;
+
+                              if ("fireEvent" in inputs[i]) {
+                                  inputs[i].fireEvent("onchange");
+                              } else {
+                                  var evt = document.createEvent("HTMLEvents");
+                                  evt.initEvent("change", false, true);
+                                  inputs[i].dispatchEvent(evt);
+                              }
+                          }
+                      }
+              }
+
+          modifyInputs();
+          document.getElementById('next').onclick = function() {
+                    window.open('page4.html',"_self");
+                    localStorage.setItem("text2",document.getElementById("resultsText2").value);
+                    localStorage.setItem("sentiment2", sentiment2);
+                    localStorage.setItem("score4",document.getElementById("range4").value);
+                    localStorage.setItem("tex5", tex5);
+        }
+        document.getElementById('back').onclick = function() {
+                      window.open('page2-2.html',"_self");
+              }
+        
+        </script>
+        
+        
+  </body>
+
+</html>

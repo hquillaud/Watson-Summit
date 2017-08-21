@@ -1,0 +1,132 @@
+
+<!DOCTYPE html>
+<html>
+
+  <head>
+      <meta charset="UTF-8">
+        <title>Watson Speech to Sentiment</title>
+        <link rel="stylesheet" href="stylesheets/radio.css">
+        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+       <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+  </head>
+
+  <body background="img/brickwall.png" onload="start()">
+        <div class="frame">
+             <div class="casep5">
+              <img src="img/Watson_Summit.png"  width="100%" height="13%"/>
+              
+                  <div class="tuner2">
+                   <img src="img/watsson.png" class = "imgwatson"/>
+                      <textarea class="word" readonly="" id="text10" dir="auto" >  
+                      </textarea>
+                </div> 
+
+                <div class="tuner11">
+                              <textarea class="wordresume"  id="text11" dir="auto">  </textarea>
+                </div> 
+                
+                 <div class="sec3">
+                        
+                      
+                  </div>
+                  <div class="controls5"> 
+                                    <div  id="back" class="back"><label class="controlLabel1"> << Back </label></div>
+                                     <div  id="submit" class="submit"><label class="controlLabel1"> SUBMIT </label></div>
+                                         
+                  </div> 
+                
+            </div>  
+        </div>
+        <script src="./js/watson-speech.js"></script>
+
+        <script>
+            var voice ='';
+            var language=localStorage.language;
+            var text1 = localStorage.text1;
+            var text2 = localStorage.text2;
+            var text3 = localStorage.text3;
+            var score1= localStorage.score1;
+            var score2= localStorage.score2;
+            var score3= localStorage.score3;
+            var score4= localStorage.score4;
+            var score5= localStorage.score5;
+            var score6= localStorage.score6;
+            var sentiment1= localStorage.sentiment1;
+            var sentiment2= localStorage.sentiment2;
+            var sentiment3= localStorage.sentiment3;
+            var tex1 = localStorage.tex1;
+            var tex3 = localStorage.tex3;
+            var tex4 = localStorage.tex4;
+            var tex5 = localStorage.tex5;
+            var tex7 = localStorage.tex7;
+            var explanationQ2 = localStorage.explanationQ2;
+            var explanationQ3 = localStorage.explanationQ3;
+            console.log(score2);
+            console.log(sentiment3);
+             console.log(text1);
+
+                 function start() {
+                  var enText10="Here is a summary of your responses. Please change as needed and submit";
+                  var esText10="Aquí hay un resumen de sus respuestas. Por favor, cambie según sea necesario y envíe";
+                  var frText10="Voici un résumé de vos réponses. Veuillez modifier au besoin et soumettre";
+                  var deText10 = "Hier ist eine Zusammenfassung Ihrer Antworten. Bitte ggf. ändern und einreichen";
+                  var tex10= "";
+
+                  
+
+                  
+                  //console.log(localStorage.language);
+                  if (language == "es"){
+                    tex10=esText10;
+                    voice='es-ES_LauraVoice';
+                  } 
+                  if (language == "fr"){
+                    tex10=frText10;
+                    voice='fr-FR_ReneeVoice';
+                  } 
+                  if (language== "en"){
+                    tex10=enText10;
+                    voice='en-US_AllisonVoice';
+                  } 
+                  if (language== "de"){
+                    tex10=deText10;
+                    voice='de-DE_DieterVoice';
+                  }
+
+                  fetch('/api/ttsToken').then(function(response) {
+                                                                  return response.text();
+                                                          }).then(function (token) {
+                                                                   WatsonSpeech.TextToSpeech.synthesize({
+                                                                   voice: voice,
+                                                                   text: tex10,
+                                                                   token: token
+                                                                  });
+                                                           });
+                document.getElementById("text10").value = tex10;
+                document.getElementById("text11").value = "1- "+tex1+" : "+ score1 + " \n " + " \n " +"2- "+ tex3 + " : " + score2 + " \n " +" \n " +"3- "+ tex4 + " : " + score3 + " \n " + " \n " +"4- "+ tex5 + " : " + score4 + " \n " +" \n " + "5- "+tex7 + " : " + score5 ;
+
+              }
+
+              document.getElementById('submit').onclick = function() {
+                    window.open('index.html',"_self");
+
+                    //call the api of inserting in DB
+                          $.post("/db/record",
+                          {language: language, explanationQ1 : text1, explanationQ2 : explanationQ2, explanationQ3 : explanationQ3, sentiment1: sentiment1, score1: score1, score2: score2, score3: score3, text2: text2, sentiment2: sentiment2, score4: score4, score5: score5, text3: text3, sentiment3: sentiment3, score6: score6},
+                          function(data, status){
+                              alert("Data: " + data + "\nStatus: " + status);
+                          });
+
+                          //alert("insertion success !");
+
+               }
+               document.getElementById('back').onclick = function() {
+                      window.open('page4.html',"_self");
+              }
+              
+        </script>
+        
+        
+  </body>
+
+</html>

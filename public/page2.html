@@ -1,0 +1,263 @@
+<!DOCTYPE html>
+<html>
+
+  <head>
+      <meta charset="UTF-8">
+        <title>Watson Speech to Sentiment</title>
+        <link rel="stylesheet" href="stylesheets/radio.css">
+        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+       <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+  </head>
+
+  <body background="img/brickwall.png" onload="start()">
+        <div class="frame">
+             <div class="casep2">
+              <img src="img/Watson_Summit.png"  width="100%" height="10%"/>
+
+
+                 <div class="tuner2">
+                       <img src="img/watsson.png" class = "imgwatson"/>
+                      <textarea class="word" readonly="" id="text3" dir="auto" > 
+                      </textarea>
+                  </div> 
+
+                <div>  
+                    <form onchange="speak()">
+                       <input id="range2" type="range" name="foo" min="0" max="10" class = "rangeclass">
+                        <output for="foo" onforminput="value = foo.valueAsNumber;"></output>
+                    </form>
+                </div>
+                <div class="tuner2" style="display: none;" id="div7">
+                      <img src="img/watsson.png" class = "imgwatson4"/>
+                      <textarea class="word4" readonly="" id="textp1" dir="auto" > 
+                      </textarea>
+                  </div>
+
+                 <div class="sec" style="display: none;" id="div1">
+                       <div class="controls"> 
+                                     <button id="recButton2"></button>
+                                     <label class="controlLabel" id="labell">RECORD</label>
+                       </div>  
+         
+               </div>
+
+              <div class="section" style="display: none;" id="div2">  
+
+                       
+                        <div class="grill" id="grill">
+                            <textarea class="words" id="resultsTextp2" dir="auto"></textarea>
+                            <svg width="100%" height="100%" xmlns="http://www.w3.org/2000/svg">
+                                <defs>
+                                    <pattern id="smallGrid" width="2" height="2" patternUnits="userSpaceOnUse">
+                                        <path d="M 8 0 L 0 0 0 8" fill="none" stroke="#8F9C78" stroke-width="0.5" />
+                                    </pattern>
+                                    <pattern id="grid" width="80" height="80" patternUnits="userSpaceOnUse">
+                                        <rect width="80" height="80" fill="url(#smallGrid)" />      
+                                    </pattern>
+                                </defs>
+                                <rect width="100%" height="100%" fill="url(#grid)" />
+                            </svg>
+                        </div>
+                 </div>
+              
+                        <div class="sec2" style="display: none;" id="div3">
+                       <div class="controlsvalidate">   
+                                      <label class="controlLabell">Validate</label>
+                                      <div  id="validaterecord1" > <img src="img/enter-arrow.png" class="controlLabela"/></div>
+                                      
+                  </div>  
+                  </div>
+
+                      <div class="controls5"> 
+                                     <div  id="back" class="back"><label class="controlLabel1"> << Back </label></div>
+                                     <div  id="next" class="next"><label class="controlLabel1">Next >> </label></div>
+                                         
+                       </div> 
+            </div>
+
+           
+          
+        </div>
+         <script src="./js/watson-speech.js"></script>
+        <script>
+            var voice ='';
+            var language=localStorage.language;
+            var enText3="On a scale of 0 to 10, how worthwhile was the time you spent here so far?";
+                  var esText3="En una escala de 0 a 10, ¿qué tan útil fue el tiempo que pasó aquí hasta ahora?";
+                  var frText3="Sur une échelle de 0 à 10, combien veloit était le temps que vous avez passé jusqu'ici?";
+                  var deText3="Auf einer Skala von 0 bis 10, wie veloit die Zeit, die Sie so weit vorgerückt war?";
+                  var tex3= "";
+
+                  var enText4="On a scale of 0 to 10, how relevant is the content to your role and professional aspiration?";
+                  var esText4="En una escala de 0 a 10, ¿qué tan relevante es el contenido de su rol y aspiración profesional?";
+                  var frText4="Sur une échelle de 0 à 10, quelle est l'importance du contenu pour votre rôle et votre aspiration professionnelle?";
+                  var deText4="Auf einer Skala von 0 bis 10, wie wichtig ist Content für Ihre Rolle und Ihre Karriereziele ?";
+                  var tex4= "";
+
+                  var entextp ="What didn't go well ?";
+                  var frtextp ="Qu'est-ce qui ne s'est pas bien passé?";
+                  var estextp ="¿Qué no salió bien?";
+                  var detextp ="Was ging nicht gut?"
+                  var textp ="";
+            
+                 function start() {
+                  //console.log(localStorage.language);
+                  if (language == "es"){
+                    tex3=esText3;
+                    tex4=esText4;
+                    voice='es-ES_LauraVoice';
+                    textp=estextp;
+                  } 
+                  if (language == "fr"){
+                    tex3=frText3;
+                    tex4=frText4;
+                    voice='fr-FR_ReneeVoice';
+                    textp=frtextp;
+                  } 
+                  if (language== "en"){
+                    tex3=enText3;
+                    tex4=enText4;
+                    voice='en-US_AllisonVoice';
+                    textp=entextp;
+                  } 
+                  if (language== "de"){
+                    tex3=deText3;
+                    tex4=deText4;
+                    voice='de-DE_DieterVoice';
+                    textp= detextp;
+                  } 
+
+                  fetch('/api/ttsToken').then(function(response) {
+                                                                  return response.text();
+                                                          }).then(function (token) {
+                                                                   WatsonSpeech.TextToSpeech.synthesize({
+                                                                   voice: voice,
+                                                                   text: tex3,
+                                                                   token: token
+                                                                  });
+                                                           });
+                  document.getElementById("text3").value = tex3;
+
+              }
+            //  $(".slider").on("change", function(){console.log(this.value)});
+            
+
+              
+             function speak(){
+                  // alert("showval");
+                  if(document.getElementById('range2').value < 7){
+                    if (language  == "en" || language == "fr" || language == "es"){
+                          $(div1).show();
+                          $(div2).show();
+                          $(div3).show();
+                          $(div7).show();
+                    }else{
+                          $(div2).show();
+                          $(div3).show();
+                          $(div7).show();
+
+                    }
+                          fetch('/api/ttsToken').then(function(response) {
+                                                                        return response.text();
+                                                                }).then(function (token) {
+                                                                         WatsonSpeech.TextToSpeech.synthesize({
+                                                                         voice: voice,
+                                                                         text: textp,
+                                                                         token: token
+                                                                        });
+                                                                 });
+                         document.getElementById("textp1").value = textp;
+
+              } else {
+                    $(div1).hide();
+                    $(div2).hide();
+                    $(div3).hide();
+                    $(div7).hide();
+
+              }
+           }
+       
+              document.querySelector('#recButton2').onclick = function () {
+
+                  fetch('/api/sttToken')
+                  .then(function(response) {
+                      return response.text();
+                  }).then(function (token) {
+
+                    var stream = WatsonSpeech.SpeechToText.recognizeMicrophone({
+                        token: token,
+                        model: localStorage.model,
+                        outputElement: '#resultsTextp2' // CSS selector or DOM Element
+                    });
+
+                    stream.on('error', function(err) {
+                        console.log(err);
+                    });
+
+                    document.querySelector('#recButton2').onclick = function() {
+                      stream.stop();
+                    };
+
+                  }).catch(function(error) {
+                      console.log(error);
+                  });
+                };
+
+             function modifyOffset() {
+                        var el, newPoint, newPlace, offset, siblings, k;
+                        width    = this.offsetWidth;
+                        newPoint = (this.value - this.getAttribute("min")) / (this.getAttribute("max") - this.getAttribute("min"));
+                        offset   = -1;
+                        if (newPoint < 0) { newPlace = 0;  }
+                        else if (newPoint > 1) { newPlace = width; }
+                        else { newPlace = width * newPoint + offset; offset -= newPoint;}
+                        siblings = this.parentNode.childNodes;
+                        for (var i = 0; i < siblings.length; i++) {
+                            sibling = siblings[i];
+                            if (sibling.id == this.id) { k = true; }
+                            if ((k == true) && (sibling.nodeName == "OUTPUT")) {
+                                outputTag = sibling;
+                            }
+                        }
+                        outputTag.style.left       = newPlace + "px";
+                        outputTag.style.marginLeft = offset + "%";
+                        outputTag.innerHTML        = this.value;
+              }
+
+              function modifyInputs() {
+    
+                      var inputs = document.getElementsByTagName("input");
+                      for (var i = 0; i < inputs.length; i++) {
+                          if (inputs[i].getAttribute("type") == "range") {
+                              inputs[i].onchange = modifyOffset;
+
+                              if ("fireEvent" in inputs[i]) {
+                                  inputs[i].fireEvent("onchange");
+                              } else {
+                                  var evt = document.createEvent("HTMLEvents");
+                                  evt.initEvent("change", false, true);
+                                  inputs[i].dispatchEvent(evt);
+                              }
+                          }
+                      }
+              }
+
+
+        modifyInputs();
+        document.getElementById('next').onclick = function() {
+                    window.open('page2-2.html',"_self");
+                    localStorage.setItem("score2",document.getElementById("range2").value);
+                    localStorage.setItem("tex3", tex3);
+                    localStorage.setItem("explanationQ2",document.getElementById("resultsTextp2").value);
+
+        }
+        document.getElementById('back').onclick = function() {
+                      window.open('page1.html',"_self");
+              }
+        
+        </script>
+        
+        
+  </body>
+
+</html>

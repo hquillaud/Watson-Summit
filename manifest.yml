@@ -1,0 +1,5 @@
+---
+applications:
+- name:    GatherFeedBack
+  host:    GatherFeedBack
+  memory:  128M
